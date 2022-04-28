@@ -25,17 +25,21 @@ public class NotesController {
 
     @GetMapping("/single/{noteId}")
     public Mono<Notes> getNoteById(@PathVariable(name = "noteId") String noteId){
-        return notesService.getNoteById(noteId);
+        return notesService.getNoteById(noteId).map(notes -> {
+            System.out.println(notes);
+            return notes;
+        });
     }
 
     @GetMapping("/{userId}")
     public Flux<Notes> getAllNotesOfUser(@PathVariable(name = "userId") String userId){
         return notesService
-                .getNotesOfUser(userId);
+                .getNotesOfUser(userId)
+                .log();
     }
 
     @DeleteMapping("/{noteId}")
-    public Mono<DeleteResult> deleteNoteById(@PathVariable String noteId){
+    public Mono<String> deleteNoteById(@PathVariable(name = "noteId") String noteId){
         return notesService
                 .deleteNoteById(noteId);
     }

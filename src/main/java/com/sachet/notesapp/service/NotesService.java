@@ -31,9 +31,10 @@ public class NotesService {
                 .findNotesOfUser(userId);
     }
 
-    public Mono<DeleteResult> deleteNoteById(String noteId){
+    public Mono<String> deleteNoteById(String noteId){
         return notesRepository
-                .deleteNoteById(noteId);
+                .deleteNoteById(noteId)
+                .map(deleteResult -> noteId);
     }
 }
 

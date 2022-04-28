@@ -36,7 +36,7 @@ public class NotesRepository {
 
     public Mono<DeleteResult> deleteNoteById(String noteId){
         Query query = new Query(Criteria.where("noteId").is(noteId));
-        return reactiveMongoTemplate.remove(query);
+        return reactiveMongoTemplate.remove(query, Notes.class);
     }
 }
 
