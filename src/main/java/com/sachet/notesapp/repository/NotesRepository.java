@@ -29,9 +29,8 @@ public class NotesRepository {
         return reactiveMongoTemplate.save(notes);
     }
 
-    public Flux<Notes> findNotesOfUser(String userId, Pageable pageable){
+    public Flux<Notes> findNotesOfUser(String userId){
         Query query = new Query(Criteria.where("userId").is(userId));
-        query.with(pageable);
         return reactiveMongoTemplate.find(query, Notes.class);
     }
 
