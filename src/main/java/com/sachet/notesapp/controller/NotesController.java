@@ -27,10 +27,7 @@ public class NotesController {
 
     @GetMapping("/single/{noteId}")
     public Mono<Notes> getNoteById(@PathVariable(name = "noteId") String noteId){
-        return notesService.getNoteById(noteId).map(notes -> {
-            System.out.println(notes);
-            return notes;
-        });
+        return notesService.getNoteById(noteId);
     }
 
     @GetMapping("/{userId}")
