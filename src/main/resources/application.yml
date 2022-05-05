@@ -4,3 +4,6 @@ spring:
       port: 27017
       host: localhost
       database: notedb
+
+server:
+  port: 8081

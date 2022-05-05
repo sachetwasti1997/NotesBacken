@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/notes")
 public class NotesController {
@@ -18,7 +20,7 @@ public class NotesController {
     }
 
     @PostMapping("/save")
-    public Mono<Notes> saveNotes(@RequestBody Mono<Notes> notesMono){
+    public Mono<Notes> saveNotes(@RequestBody @Valid Mono<Notes> notesMono){
         return notesMono
                 .flatMap(notesService::saveNotes);
     }
