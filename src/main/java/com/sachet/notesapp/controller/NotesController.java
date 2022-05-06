@@ -27,7 +27,9 @@ public class NotesController {
 
     @GetMapping("/single/{noteId}")
     public Mono<Notes> getNoteById(@PathVariable(name = "noteId") String noteId){
-        return notesService.getNoteById(noteId);
+        return notesService
+                .getNoteById(noteId)
+                .switchIfEmpty(Mono.error(new Exception("No Notes Found Exception")));
     }
 
     @GetMapping("/{userId}")

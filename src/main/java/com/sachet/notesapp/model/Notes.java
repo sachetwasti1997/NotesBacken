@@ -26,6 +26,6 @@ public class Notes {
 
     private Integer color;
 
-    private String localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss"));
+    private String localDateTime;
 
 }
