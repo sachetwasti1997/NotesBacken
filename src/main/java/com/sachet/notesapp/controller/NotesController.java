@@ -35,8 +35,7 @@ public class NotesController {
     @GetMapping("/{userId}")
     public Flux<Notes> getAllNotesOfUser(@PathVariable(name = "userId") String userId){
         return notesService
-                .getNotesOfUser(userId)
-                .log();
+                .getNotesOfUser(userId);
     }
 
     @DeleteMapping("/{noteId}")

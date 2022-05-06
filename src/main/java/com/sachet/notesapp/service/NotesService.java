@@ -17,7 +17,6 @@ public class NotesService {
     }
 
     public Mono<Notes> saveNotes(Notes notes){
-        System.out.println(notes);
         return notesRepository.saveNotes(notes);
 
     }
