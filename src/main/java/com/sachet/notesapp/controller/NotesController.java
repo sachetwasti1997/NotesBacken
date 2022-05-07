@@ -1,6 +1,7 @@
 package com.sachet.notesapp.controller;
 
 import com.mongodb.client.result.DeleteResult;
+import com.sachet.notesapp.errors.NoteNotFoundException;
 import com.sachet.notesapp.model.Notes;
 import com.sachet.notesapp.service.NotesService;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +30,14 @@ public class NotesController {
     public Mono<Notes> getNoteById(@PathVariable(name = "noteId") String noteId){
         return notesService
                 .getNoteById(noteId)
-                .switchIfEmpty(Mono.error(new Exception("No Notes Found Exception")));
+                .switchIfEmpty(Mono.error(new NoteNotFoundException("No Notes Found Exception")));
     }
 
     @GetMapping("/{userId}")
     public Flux<Notes> getAllNotesOfUser(@PathVariable(name = "userId") String userId){
         return notesService
-                .getNotesOfUser(userId);
+                .getNotesOfUser(userId)
+                .switchIfEmpty(Mono.error(new NoteNotFoundException("No Notes Found Exception")));
     }
 
     @DeleteMapping("/{noteId}")
