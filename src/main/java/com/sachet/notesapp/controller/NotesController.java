@@ -2,6 +2,8 @@ package com.sachet.notesapp.controller;
 
 import com.mongodb.client.result.DeleteResult;
 import com.sachet.notesapp.errors.NoteNotFoundException;
+import com.sachet.notesapp.model.DeleteNoteResponse;
+import com.sachet.notesapp.model.GetNotesResponse;
 import com.sachet.notesapp.model.Notes;
 import com.sachet.notesapp.service.NotesService;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +36,20 @@ public class NotesController {
     }
 
     @GetMapping("/{userId}")
-    public Flux<Notes> getAllNotesOfUser(@PathVariable(name = "userId") String userId){
+    public Mono<GetNotesResponse> getAllNotesOfUser(@PathVariable(name = "userId") String userId){
         return notesService
                 .getNotesOfUser(userId)
-                .switchIfEmpty(Mono.error(new NoteNotFoundException("No Notes Found Exception")));
+                .collectList()
+                .filter(notes -> !notes.isEmpty())
+                .map(notes -> new GetNotesResponse(notes, "Successfully fetched notes", 200))
+                .switchIfEmpty(Mono.error(new NoteNotFoundException("No Notes Found For the User")));
     }
 
     @DeleteMapping("/{noteId}")
-    public Mono<String> deleteNoteById(@PathVariable(name = "noteId") String noteId){
+    public Mono<DeleteNoteResponse> deleteNoteById(@PathVariable(name = "noteId") String noteId){
         return notesService
-                .deleteNoteById(noteId);
+                .deleteNoteById(noteId)
+                .map(s -> new DeleteNoteResponse(s, 200))
+                .switchIfEmpty(Mono.error(new NoteNotFoundException("No Notes Found Exception")));
     }
 }

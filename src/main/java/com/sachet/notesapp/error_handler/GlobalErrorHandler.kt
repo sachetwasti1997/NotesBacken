@@ -2,6 +2,7 @@ package com.sachet.notesapp.error_handler
 
 import com.sachet.notesapp.errors.ApiError
 import com.sachet.notesapp.errors.NoteNotFoundException
+import com.sachet.notesapp.model.GetNotesResponse
 import org.springframework.context.support.DefaultMessageSourceResolvable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -27,6 +28,6 @@ class GlobalErrorHandler {
     @ExceptionHandler(NoteNotFoundException::class)
     fun handleNoteNotFoundException(
         exception: NoteNotFoundException
-    ): ResponseEntity<ApiError> = ResponseEntity(ApiError(exception.message, 404), HttpStatus.NOT_FOUND)
+    ): ResponseEntity<GetNotesResponse> = ResponseEntity(GetNotesResponse(null, exception.message, 404), HttpStatus.OK)
 
 }
